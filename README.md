@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 🚀 alx_travel_app_0x02
 ALX Backend Web Development – Django Travel Booking API with Chapa Payment Integration
 
@@ -20,3 +21,8 @@ Receive payment confirmation upon successful payment (via Celery in advanced sta
 
 Credits
 Developed by Clifford TabuUnder ALX Backend Web Development Curriculum
+=======
+# alx_travel_app 0x03 
+
+This comes as a repo for milestone 6 of the alx
+>>>>>>> 83da1d3902b4a4c4bdd6b0490517037ded06ed1d
