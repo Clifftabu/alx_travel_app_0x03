@@ -6,6 +6,8 @@ from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
+from .tasks  import send_booking_confirmation_email
+from rest_framework.permissions import IsAuthenticated
 
 
 
@@ -16,6 +18,17 @@ class ListingViewSet(viewsets.ModelViewSet):
 class BookingViewSet(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        booking = serializer.save(user=self.request.user)
+        # Prepare email details
+        email = booking.user.email
+        subject = 'Booking Confirmation'
+        message = f'Thank you for booking, {booking.user.username}! Your booking is confirmed.'
+        serializer.save(user=self.request.user)
+        # Trigger Celery task
+        send_booking_confirmation_email.delay(email, subject, message)
 
 
 class InitiatePaymentView(APIView):
